@@ -44,7 +44,7 @@ class Database extends Service {
      /// integration](/docs/server/database?sdk=nodejs#createCollection) API or
      /// directly from your database console.
      ///
-    Future<Response> createDocument({@required String collectionId, @required dynamic data, @required List read, @required List write, String parentDocument = '', String parentProperty = '', String parentPropertyType = 'assign'}) {
+    Future<Response> createDocument({@required String collectionId, @required Map data, @required List read, @required List write, String parentDocument = '', String parentProperty = '', String parentPropertyType = 'assign'}) {
         final String path = '/database/collections/{collectionId}/documents'.replaceAll(RegExp('{collectionId}'), collectionId);
 
         final Map<String, dynamic> params = {
@@ -82,7 +82,7 @@ class Database extends Service {
     }
 
      /// Update Document
-    Future<Response> updateDocument({@required String collectionId, @required String documentId, @required dynamic data, @required List read, @required List write}) {
+    Future<Response> updateDocument({@required String collectionId, @required String documentId, @required Map data, @required List read, @required List write}) {
         final String path = '/database/collections/{collectionId}/documents/{documentId}'.replaceAll(RegExp('{collectionId}'), collectionId).replaceAll(RegExp('{documentId}'), documentId);
 
         final Map<String, dynamic> params = {

@@ -88,8 +88,18 @@ class Client {
             final Directory cookieDir = await _getCookiePath();
             cookieJar = new PersistCookieJar(dir:cookieDir.path);
             this.http.interceptors.add(CookieManager(cookieJar));
-            PackageInfo packageInfo = await PackageInfo.fromPlatform();
-            addHeader('Origin', 'appwrite-' + type + '://' + packageInfo.packageName);
+            if(Platform.isAndroid || Platform.isIOS) {
+              PackageInfo packageInfo = await PackageInfo.fromPlatform();
+              addHeader('Origin', 'appwrite-' + type + '://' + packageInfo.packageName);
+            } else if(Platform.isLinux) {
+              addHeader('Origin', 'appwrite-linux://');
+            } else if(Platform.isMacOS) {
+              addHeader('Origin', 'appwrite-macos://');
+            } else if(Platform.isWindows) {
+              addHeader('Origin', 'appwrite-windows://');
+            } else if(Platform.isFuchsia) {
+              addHeader('Origin', 'appwrite-fuchsia://');
+            }
           }else{
             // if web set httpClientAdapter as BrowserHttpClientAdapter with withCredentials true to make cookies work
             this.http.options.extra['withCredentials'] = true;
@@ -101,7 +111,7 @@ class Client {
     }
 
     Future<Response> call(HttpMethod method, {String path = '', Map<String, String> headers = const {}, Map<String, dynamic> params = const {}}) async {
-        if(selfSigned) {
+        if(selfSigned && !kIsWeb) {
             // Allow self signed requests
             (http.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (HttpClient client) {
                 client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;

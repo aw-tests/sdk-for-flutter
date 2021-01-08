@@ -1,8 +1,10 @@
 
 import 'dart:io';
+import 'package:universal_html/html.dart' as html;
 
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_web_auth/flutter_web_auth.dart';
 
 import "../client.dart";
@@ -175,7 +177,7 @@ class Account extends Service {
      /// Update currently logged in user account preferences. You can pass only the
      /// specific settings you wish to update.
      ///
-    Future<Response> updatePrefs({@required dynamic prefs}) {
+    Future<Response> updatePrefs({@required Map prefs}) {
         final String path = '/account/prefs';
 
         final Map<String, dynamic> params = {
@@ -337,19 +339,26 @@ class Account extends Service {
           query: query.join('&')
         );
 
-        return FlutterWebAuth.authenticate(
-          url: url.toString(),
-          callbackUrlScheme: "appwrite-callback-" + client.config['project']
-          ).then((value) async {
-              Uri url = Uri.parse(value);
-              Cookie cookie = new Cookie(url.queryParameters['key'], url.queryParameters['secret']);
-              cookie.domain = Uri.parse(client.endPoint).host;
-              cookie.httpOnly = true;
-              cookie.path = '/';
-              List<Cookie> cookies = [cookie];
-              await client.init();
-              client.cookieJar.saveFromResponse(Uri.parse(client.endPoint), cookies);
-          });
+        if(kIsWeb) {
+          html.window.location.href = url.toString();
+          return null;
+        }else{
+
+          return FlutterWebAuth.authenticate(
+            url: url.toString(),
+            callbackUrlScheme: "appwrite-callback-" + client.config['project']
+            ).then((value) async {
+                Uri url = Uri.parse(value);
+                Cookie cookie = new Cookie(url.queryParameters['key'], url.queryParameters['secret']);
+                cookie.domain = Uri.parse(client.endPoint).host;
+                cookie.httpOnly = true;
+                cookie.path = '/';
+                List<Cookie> cookies = [cookie];
+                await client.init();
+                client.cookieJar.saveFromResponse(Uri.parse(client.endPoint), cookies);
+            });
+        }
+
     }
 
      /// Delete Account Session
