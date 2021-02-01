@@ -36,8 +36,8 @@ class Account extends Service {
      /// Use this endpoint to allow a new user to register a new account in your
      /// project. After the user registration completes successfully, you can use
      /// the [/account/verfication](/docs/client/account#createVerification) route
-     /// to start verifying the user email address. To allow your new user to login
-     /// to his new account, you need to create a new [account
+     /// to start verifying the user email address. To allow the new user to login
+     /// to their new account, you need to create a new [account
      /// session](/docs/client/account#createSession).
      ///
     Future<Response> create({@required String email, @required String password, String name = ''}) {
@@ -97,6 +97,26 @@ class Account extends Service {
         };
 
         return client.call(HttpMethod.patch, path: path, params: params, headers: headers);
+    }
+
+     /// Create Account JWT
+     ///
+     /// Use this endpoint to create a JSON Web Token. You can use the resulting JWT
+     /// to authenticate on behalf of the current user when working with the
+     /// Appwrite server-side API and SDKs. The JWT secret is valid for 15 minutes
+     /// from its creation and will be invalid if the user will logout.
+     ///
+    Future<Response> createJWT() {
+        final String path = '/account/jwt';
+
+        final Map<String, dynamic> params = {
+        };
+
+        final Map<String, String> headers = {
+            'content-type': 'application/json',
+        };
+
+        return client.call(HttpMethod.post, path: path, params: params, headers: headers);
     }
 
      /// Get Account Logs
@@ -264,7 +284,7 @@ class Account extends Service {
 
      /// Create Account Session
      ///
-     /// Allow the user to login into his account by providing a valid email and
+     /// Allow the user to login into their account by providing a valid email and
      /// password combination. This route will create a new session for the user.
      ///
     Future<Response> createSession({@required String email, @required String password}) {
@@ -302,7 +322,7 @@ class Account extends Service {
 
      /// Create Account Session with OAuth2
      ///
-     /// Allow the user to login to his account using the OAuth2 provider of his
+     /// Allow the user to login to their account using the OAuth2 provider of their
      /// choice. Each OAuth2 provider should be enabled from the Appwrite console
      /// first. Use the success and failure arguments to provide a redirect URL's
      /// back to your app when login is completed.
@@ -363,9 +383,9 @@ class Account extends Service {
 
      /// Delete Account Session
      ///
-     /// Use this endpoint to log out the currently logged in user from all his
-     /// account sessions across all his different devices. When using the option id
-     /// argument, only the session unique ID provider will be deleted.
+     /// Use this endpoint to log out the currently logged in user from all their
+     /// account sessions across all of their different devices. When using the
+     /// option id argument, only the session unique ID provider will be deleted.
      ///
     Future<Response> deleteSession({@required String sessionId}) {
         final String path = '/account/sessions/{sessionId}'.replaceAll(RegExp('{sessionId}'), sessionId);
@@ -389,7 +409,7 @@ class Account extends Service {
      /// should redirect the user back to your app and allow you to complete the
      /// verification process by verifying both the **userId** and **secret**
      /// parameters. Learn more about how to [complete the verification
-     /// process](/docs/client/account#updateAccountVerification). 
+     /// process](/docs/client/account#updateVerification). 
      /// 
      /// Please note that in order to avoid a [Redirect
      /// Attack](https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.md),
