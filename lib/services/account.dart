@@ -1,15 +1,5 @@
+part of appwrite;
 
-import 'dart:io';
-import 'package:universal_html/html.dart' as html;
-
-import 'package:dio/dio.dart';
-import 'package:meta/meta.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter_web_auth/flutter_web_auth.dart';
-
-import "../client.dart";
-import '../enums.dart';
-import "../service.dart";
 
 class Account extends Service {
     Account(Client client): super(client);
@@ -35,12 +25,12 @@ class Account extends Service {
      ///
      /// Use this endpoint to allow a new user to register a new account in your
      /// project. After the user registration completes successfully, you can use
-     /// the [/account/verfication](/docs/client/account#createVerification) route
-     /// to start verifying the user email address. To allow the new user to login
-     /// to their new account, you need to create a new [account
-     /// session](/docs/client/account#createSession).
+     /// the [/account/verfication](/docs/client/account#accountCreateVerification)
+     /// route to start verifying the user email address. To allow the new user to
+     /// login to their new account, you need to create a new [account
+     /// session](/docs/client/account#accountCreateSession).
      ///
-    Future<Response> create({@required String email, @required String password, String name = ''}) {
+    Future<Response> create({required String email, required String password, String name = &#039;&#039;}) {
         final String path = '/account';
 
         final Map<String, dynamic> params = {
@@ -83,8 +73,10 @@ class Account extends Service {
      /// address, user confirmation status is being reset and a new confirmation
      /// mail is sent. For security measures, user password is required to complete
      /// this request.
+     /// This endpoint can also be used to convert an anonymous account to a normal
+     /// one, by passing an email address and a new password.
      ///
-    Future<Response> updateEmail({@required String email, @required String password}) {
+    Future<Response> updateEmail({required String email, required String password}) {
         final String path = '/account/email';
 
         final Map<String, dynamic> params = {
@@ -141,7 +133,7 @@ class Account extends Service {
      ///
      /// Update currently logged in user account name.
      ///
-    Future<Response> updateName({@required String name}) {
+    Future<Response> updateName({required String name}) {
         final String path = '/account/name';
 
         final Map<String, dynamic> params = {
@@ -160,7 +152,7 @@ class Account extends Service {
      /// Update currently logged in user password. For validation, user is required
      /// to pass the password twice.
      ///
-    Future<Response> updatePassword({@required String password, @required String oldPassword}) {
+    Future<Response> updatePassword({required String password, required String oldPassword}) {
         final String path = '/account/password';
 
         final Map<String, dynamic> params = {
@@ -197,7 +189,7 @@ class Account extends Service {
      /// Update currently logged in user account preferences. You can pass only the
      /// specific settings you wish to update.
      ///
-    Future<Response> updatePrefs({@required Map prefs}) {
+    Future<Response> updatePrefs({required Map prefs}) {
         final String path = '/account/prefs';
 
         final Map<String, dynamic> params = {
@@ -217,10 +209,11 @@ class Account extends Service {
      /// When the user clicks the confirmation link he is redirected back to your
      /// app password reset URL with the secret key and email address values
      /// attached to the URL query string. Use the query string params to submit a
-     /// request to the [PUT /account/recovery](/docs/client/account#updateRecovery)
-     /// endpoint to complete the process.
+     /// request to the [PUT
+     /// /account/recovery](/docs/client/account#accountUpdateRecovery) endpoint to
+     /// complete the process.
      ///
-    Future<Response> createRecovery({@required String email, @required String url}) {
+    Future<Response> createRecovery({required String email, required String url}) {
         final String path = '/account/recovery';
 
         final Map<String, dynamic> params = {
@@ -240,14 +233,14 @@ class Account extends Service {
      /// Use this endpoint to complete the user account password reset. Both the
      /// **userId** and **secret** arguments will be passed as query parameters to
      /// the redirect URL you have provided when sending your request to the [POST
-     /// /account/recovery](/docs/client/account#createRecovery) endpoint.
+     /// /account/recovery](/docs/client/account#accountCreateRecovery) endpoint.
      /// 
      /// Please note that in order to avoid a [Redirect
      /// Attack](https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.md)
      /// the only valid redirect URLs are the ones from domains you have set when
      /// adding your platforms in the console interface.
      ///
-    Future<Response> updateRecovery({@required String userId, @required String secret, @required String password, @required String passwordAgain}) {
+    Future<Response> updateRecovery({required String userId, required String secret, required String password, required String passwordAgain}) {
         final String path = '/account/recovery';
 
         final Map<String, dynamic> params = {
@@ -287,7 +280,7 @@ class Account extends Service {
      /// Allow the user to login into their account by providing a valid email and
      /// password combination. This route will create a new session for the user.
      ///
-    Future<Response> createSession({@required String email, @required String password}) {
+    Future<Response> createSession({required String email, required String password}) {
         final String path = '/account/sessions';
 
         final Map<String, dynamic> params = {
@@ -320,6 +313,27 @@ class Account extends Service {
         return client.call(HttpMethod.delete, path: path, params: params, headers: headers);
     }
 
+     /// Create Anonymous Session
+     ///
+     /// Use this endpoint to allow a new user to register an anonymous account in
+     /// your project. This route will also create a new session for the user. To
+     /// allow the new user to convert an anonymous account to a normal account
+     /// account, you need to update its [email and
+     /// password](/docs/client/account#accountUpdateEmail).
+     ///
+    Future<Response> createAnonymousSession() {
+        final String path = '/account/sessions/anonymous';
+
+        final Map<String, dynamic> params = {
+        };
+
+        final Map<String, String> headers = {
+            'content-type': 'application/json',
+        };
+
+        return client.call(HttpMethod.post, path: path, params: params, headers: headers);
+    }
+
      /// Create Account Session with OAuth2
      ///
      /// Allow the user to login to their account using the OAuth2 provider of their
@@ -327,7 +341,7 @@ class Account extends Service {
      /// first. Use the success and failure arguments to provide a redirect URL's
      /// back to your app when login is completed.
      ///
-    Future createOAuth2Session({@required String provider, String success = 'https://appwrite.io/auth/oauth2/success', String failure = 'https://appwrite.io/auth/oauth2/failure', List scopes = const []}) {
+    Future createOAuth2Session({required String provider, String success = &#039;https://appwrite.io/auth/oauth2/success&#039;, String failure = &#039;https://appwrite.io/auth/oauth2/failure&#039;, List scopes = const []}) {
         final String path = '/account/sessions/oauth2/{provider}'.replaceAll(RegExp('{provider}'), provider);
 
         final Map<String, dynamic> params = {
@@ -361,15 +375,15 @@ class Account extends Service {
 
         if(kIsWeb) {
           html.window.location.href = url.toString();
-          return null;
+          return Future.value();
         }else{
 
           return FlutterWebAuth.authenticate(
             url: url.toString(),
-            callbackUrlScheme: "appwrite-callback-" + client.config['project']
+            callbackUrlScheme: "appwrite-callback-" + client.config['project']!
             ).then((value) async {
                 Uri url = Uri.parse(value);
-                Cookie cookie = new Cookie(url.queryParameters['key'], url.queryParameters['secret']);
+                Cookie cookie = new Cookie(url.queryParameters['key']!, url.queryParameters['secret']!);
                 cookie.domain = Uri.parse(client.endPoint).host;
                 cookie.httpOnly = true;
                 cookie.path = '/';
@@ -387,7 +401,7 @@ class Account extends Service {
      /// account sessions across all of their different devices. When using the
      /// option id argument, only the session unique ID provider will be deleted.
      ///
-    Future<Response> deleteSession({@required String sessionId}) {
+    Future<Response> deleteSession({required String sessionId}) {
         final String path = '/account/sessions/{sessionId}'.replaceAll(RegExp('{sessionId}'), sessionId);
 
         final Map<String, dynamic> params = {
@@ -409,7 +423,7 @@ class Account extends Service {
      /// should redirect the user back to your app and allow you to complete the
      /// verification process by verifying both the **userId** and **secret**
      /// parameters. Learn more about how to [complete the verification
-     /// process](/docs/client/account#updateVerification). 
+     /// process](/docs/client/account#accountUpdateVerification). 
      /// 
      /// Please note that in order to avoid a [Redirect
      /// Attack](https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.md),
@@ -417,7 +431,7 @@ class Account extends Service {
      /// adding your platforms in the console interface.
      /// 
      ///
-    Future<Response> createVerification({@required String url}) {
+    Future<Response> createVerification({required String url}) {
         final String path = '/account/verification';
 
         final Map<String, dynamic> params = {
@@ -438,7 +452,7 @@ class Account extends Service {
      /// to verify the user email ownership. If confirmed this route will return a
      /// 200 status code.
      ///
-    Future<Response> updateVerification({@required String userId, @required String secret}) {
+    Future<Response> updateVerification({required String userId, required String secret}) {
         final String path = '/account/verification';
 
         final Map<String, dynamic> params = {

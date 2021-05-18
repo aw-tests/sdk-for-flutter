@@ -1,11 +1,5 @@
+part of appwrite;
 
-
-import 'package:dio/dio.dart';
-import 'package:meta/meta.dart';
-
-import "../client.dart";
-import '../enums.dart';
-import "../service.dart";
 
 class Teams extends Service {
     Teams(Client client): super(client);
@@ -17,7 +11,7 @@ class Teams extends Service {
      /// of the project's teams. [Learn more about different API
      /// modes](/docs/admin).
      ///
-    Future<Response> list({String search = '', int limit = 25, int offset = 0, OrderType orderType = OrderType.asc}) {
+    Future<Response> list({String search = &#039;&#039;, int limit = 25, int offset = 0, OrderType orderType = OrderType.asc}) {
         final String path = '/teams';
 
         final Map<String, dynamic> params = {
@@ -41,7 +35,7 @@ class Teams extends Service {
      /// who will be able add new owners and update or delete the team from your
      /// project.
      ///
-    Future<Response> create({@required String name, List roles = const ["owner"]}) {
+    Future<Response> create({required String name, List roles = const [&quot;owner&quot;]}) {
         final String path = '/teams';
 
         final Map<String, dynamic> params = {
@@ -61,7 +55,7 @@ class Teams extends Service {
      /// Get a team by its unique ID. All team members have read access for this
      /// resource.
      ///
-    Future<Response> get({@required String teamId}) {
+    Future<Response> get({required String teamId}) {
         final String path = '/teams/{teamId}'.replaceAll(RegExp('{teamId}'), teamId);
 
         final Map<String, dynamic> params = {
@@ -79,7 +73,7 @@ class Teams extends Service {
      /// Update a team by its unique ID. Only team owners have write access for this
      /// resource.
      ///
-    Future<Response> update({@required String teamId, @required String name}) {
+    Future<Response> update({required String teamId, required String name}) {
         final String path = '/teams/{teamId}'.replaceAll(RegExp('{teamId}'), teamId);
 
         final Map<String, dynamic> params = {
@@ -98,7 +92,7 @@ class Teams extends Service {
      /// Delete a team by its unique ID. Only team owners have write access for this
      /// resource.
      ///
-    Future<Response> delete({@required String teamId}) {
+    Future<Response> delete({required String teamId}) {
         final String path = '/teams/{teamId}'.replaceAll(RegExp('{teamId}'), teamId);
 
         final Map<String, dynamic> params = {
@@ -116,7 +110,7 @@ class Teams extends Service {
      /// Get a team members by the team unique ID. All team members have read access
      /// for this list of resources.
      ///
-    Future<Response> getMemberships({@required String teamId, String search = '', int limit = 25, int offset = 0, OrderType orderType = OrderType.asc}) {
+    Future<Response> getMemberships({required String teamId, String search = &#039;&#039;, int limit = 25, int offset = 0, OrderType orderType = OrderType.asc}) {
         final String path = '/teams/{teamId}/memberships'.replaceAll(RegExp('{teamId}'), teamId);
 
         final Map<String, dynamic> params = {
@@ -141,15 +135,15 @@ class Teams extends Service {
      /// 
      /// Use the 'URL' parameter to redirect the user from the invitation email back
      /// to your app. When the user is redirected, use the [Update Team Membership
-     /// Status](/docs/client/teams#updateMembershipStatus) endpoint to allow the
-     /// user to accept the invitation to the team.
+     /// Status](/docs/client/teams#teamsUpdateMembershipStatus) endpoint to allow
+     /// the user to accept the invitation to the team.
      /// 
      /// Please note that in order to avoid a [Redirect
      /// Attacks](https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.md)
      /// the only valid redirect URL's are the once from domains you have set when
      /// added your platforms in the console interface.
      ///
-    Future<Response> createMembership({@required String teamId, @required String email, @required List roles, @required String url, String name = ''}) {
+    Future<Response> createMembership({required String teamId, required String email, required List roles, required String url, String name = &#039;&#039;}) {
         final String path = '/teams/{teamId}/memberships'.replaceAll(RegExp('{teamId}'), teamId);
 
         final Map<String, dynamic> params = {
@@ -172,7 +166,7 @@ class Teams extends Service {
      /// the membership of any other team member. You can also use this endpoint to
      /// delete a user membership even if it is not accepted.
      ///
-    Future<Response> deleteMembership({@required String teamId, @required String inviteId}) {
+    Future<Response> deleteMembership({required String teamId, required String inviteId}) {
         final String path = '/teams/{teamId}/memberships/{inviteId}'.replaceAll(RegExp('{teamId}'), teamId).replaceAll(RegExp('{inviteId}'), inviteId);
 
         final Map<String, dynamic> params = {
@@ -191,7 +185,7 @@ class Teams extends Service {
      /// after being redirected back to your app from the invitation email recieved
      /// by the user.
      ///
-    Future<Response> updateMembershipStatus({@required String teamId, @required String inviteId, @required String userId, @required String secret}) {
+    Future<Response> updateMembershipStatus({required String teamId, required String inviteId, required String userId, required String secret}) {
         final String path = '/teams/{teamId}/memberships/{inviteId}/status'.replaceAll(RegExp('{teamId}'), teamId).replaceAll(RegExp('{inviteId}'), inviteId);
 
         final Map<String, dynamic> params = {

@@ -1,11 +1,5 @@
+part of appwrite;
 
-
-import 'package:dio/dio.dart';
-import 'package:meta/meta.dart';
-
-import "../client.dart";
-import '../enums.dart';
-import "../service.dart";
 
 class Database extends Service {
     Database(Client client): super(client);
@@ -17,7 +11,7 @@ class Database extends Service {
      /// of the project's documents. [Learn more about different API
      /// modes](/docs/admin).
      ///
-    Future<Response> listDocuments({@required String collectionId, List filters = const [], int limit = 25, int offset = 0, String orderField = '', OrderType orderType = OrderType.asc, String orderCast = 'string', String search = ''}) {
+    Future<Response> listDocuments({required String collectionId, List filters = const [], int limit = 25, int offset = 0, String orderField = &#039;&#039;, OrderType orderType = OrderType.asc, String orderCast = &#039;string&#039;, String search = &#039;&#039;}) {
         final String path = '/database/collections/{collectionId}/documents'.replaceAll(RegExp('{collectionId}'), collectionId);
 
         final Map<String, dynamic> params = {
@@ -41,10 +35,10 @@ class Database extends Service {
      ///
      /// Create a new Document. Before using this route, you should create a new
      /// collection resource using either a [server
-     /// integration](/docs/server/database?sdk=nodejs#createCollection) API or
+     /// integration](/docs/server/database#databaseCreateCollection) API or
      /// directly from your database console.
      ///
-    Future<Response> createDocument({@required String collectionId, @required Map data, @required List read, @required List write, String parentDocument = '', String parentProperty = '', String parentPropertyType = 'assign'}) {
+    Future<Response> createDocument({required String collectionId, required Map data, List read = const [], List write = const [], String parentDocument = &#039;&#039;, String parentProperty = &#039;&#039;, String parentPropertyType = &#039;assign&#039;}) {
         final String path = '/database/collections/{collectionId}/documents'.replaceAll(RegExp('{collectionId}'), collectionId);
 
         final Map<String, dynamic> params = {
@@ -68,7 +62,7 @@ class Database extends Service {
      /// Get a document by its unique ID. This endpoint response returns a JSON
      /// object with the document data.
      ///
-    Future<Response> getDocument({@required String collectionId, @required String documentId}) {
+    Future<Response> getDocument({required String collectionId, required String documentId}) {
         final String path = '/database/collections/{collectionId}/documents/{documentId}'.replaceAll(RegExp('{collectionId}'), collectionId).replaceAll(RegExp('{documentId}'), documentId);
 
         final Map<String, dynamic> params = {
@@ -86,7 +80,7 @@ class Database extends Service {
      /// Update a document by its unique ID. Using the patch method you can pass
      /// only specific fields that will get updated.
      ///
-    Future<Response> updateDocument({@required String collectionId, @required String documentId, @required Map data, @required List read, @required List write}) {
+    Future<Response> updateDocument({required String collectionId, required String documentId, required Map data, List read = const [], List write = const []}) {
         final String path = '/database/collections/{collectionId}/documents/{documentId}'.replaceAll(RegExp('{collectionId}'), collectionId).replaceAll(RegExp('{documentId}'), documentId);
 
         final Map<String, dynamic> params = {
@@ -108,7 +102,7 @@ class Database extends Service {
      /// documents, its attributes and relations to other documents. Child documents
      /// **will not** be deleted.
      ///
-    Future<Response> deleteDocument({@required String collectionId, @required String documentId}) {
+    Future<Response> deleteDocument({required String collectionId, required String documentId}) {
         final String path = '/database/collections/{collectionId}/documents/{documentId}'.replaceAll(RegExp('{collectionId}'), collectionId).replaceAll(RegExp('{documentId}'), documentId);
 
         final Map<String, dynamic> params = {
