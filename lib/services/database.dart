@@ -11,7 +11,7 @@ class Database extends Service {
      /// of the project's documents. [Learn more about different API
      /// modes](/docs/admin).
      ///
-    Future<Response> listDocuments({required String collectionId, List filters = const [], int limit = 25, int offset = 0, String orderField = &#039;&#039;, OrderType orderType = OrderType.asc, String orderCast = &#039;string&#039;, String search = &#039;&#039;}) {
+    Future<Response> listDocuments({required String collectionId, List filters = const [], int limit = 25, int offset = 0, String orderField = '', OrderType orderType = OrderType.asc, String orderCast = 'string', String search = ''}) {
         final String path = '/database/collections/{collectionId}/documents'.replaceAll(RegExp('{collectionId}'), collectionId);
 
         final Map<String, dynamic> params = {
@@ -38,7 +38,7 @@ class Database extends Service {
      /// integration](/docs/server/database#databaseCreateCollection) API or
      /// directly from your database console.
      ///
-    Future<Response> createDocument({required String collectionId, required Map data, List read = const [], List write = const [], String parentDocument = &#039;&#039;, String parentProperty = &#039;&#039;, String parentPropertyType = &#039;assign&#039;}) {
+    Future<Response> createDocument({required String collectionId, required Map data, List read = const [], List write = const [], String parentDocument = '', String parentProperty = '', String parentPropertyType = 'assign'}) {
         final String path = '/database/collections/{collectionId}/documents'.replaceAll(RegExp('{collectionId}'), collectionId);
 
         final Map<String, dynamic> params = {

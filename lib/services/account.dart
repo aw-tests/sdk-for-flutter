@@ -30,7 +30,7 @@ class Account extends Service {
      /// login to their new account, you need to create a new [account
      /// session](/docs/client/account#accountCreateSession).
      ///
-    Future<Response> create({required String email, required String password, String name = &#039;&#039;}) {
+    Future<Response> create({required String email, required String password, String name = ''}) {
         final String path = '/account';
 
         final Map<String, dynamic> params = {
@@ -153,7 +153,7 @@ class Account extends Service {
      /// to pass in the new password, and the old password. For users created with
      /// OAuth and Team Invites, oldPassword is optional.
      ///
-    Future<Response> updatePassword({required String password, String oldPassword = &#039;&#039;}) {
+    Future<Response> updatePassword({required String password, String oldPassword = ''}) {
         final String path = '/account/password';
 
         final Map<String, dynamic> params = {
@@ -343,7 +343,7 @@ class Account extends Service {
      /// first. Use the success and failure arguments to provide a redirect URL's
      /// back to your app when login is completed.
      ///
-    Future createOAuth2Session({required String provider, String success = &#039;https://appwrite.io/auth/oauth2/success&#039;, String failure = &#039;https://appwrite.io/auth/oauth2/failure&#039;, List scopes = const []}) {
+    Future createOAuth2Session({required String provider, String success = 'https://appwrite.io/auth/oauth2/success', String failure = 'https://appwrite.io/auth/oauth2/failure', List scopes = const []}) {
         final String path = '/account/sessions/oauth2/{provider}'.replaceAll(RegExp('{provider}'), provider);
 
         final Map<String, dynamic> params = {

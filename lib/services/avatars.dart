@@ -137,7 +137,7 @@ class Avatars extends Service {
      /// the user's initials when reloading the same theme will always return for
      /// the same initials.
      ///
-    Future<Response> getInitials({String name = &#039;&#039;, int width = 500, int height = 500, String color = &#039;&#039;, String background = &#039;&#039;}) {
+    Future<Response> getInitials({String name = '', int width = 500, int height = 500, String color = '', String background = ''}) {
         final String path = '/avatars/initials';
 
         final Map<String, dynamic> params = {

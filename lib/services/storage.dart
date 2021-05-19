@@ -10,7 +10,7 @@ class Storage extends Service {
      /// your results. On admin mode, this endpoint will return a list of all of the
      /// project's files. [Learn more about different API modes](/docs/admin).
      ///
-    Future<Response> listFiles({String search = &#039;&#039;, int limit = 25, int offset = 0, OrderType orderType = OrderType.asc}) {
+    Future<Response> listFiles({String search = '', int limit = 25, int offset = 0, OrderType orderType = OrderType.asc}) {
         final String path = '/storage/files';
 
         final Map<String, dynamic> params = {
@@ -133,7 +133,7 @@ class Storage extends Service {
      /// and spreadsheets, will return the file icon image. You can also pass query
      /// string arguments for cutting and resizing your preview image.
      ///
-    Future<Response> getFilePreview({required String fileId, int width = 0, int height = 0, int quality = 100, int borderWidth = 0, String borderColor = &#039;&#039;, int borderRadius = 0, int opacity = 1, int rotation = 0, String background = &#039;&#039;, String output = &#039;&#039;}) {
+    Future<Response> getFilePreview({required String fileId, int width = 0, int height = 0, int quality = 100, int borderWidth = 0, String borderColor = '', int borderRadius = 0, int opacity = 1, int rotation = 0, String background = '', String output = ''}) {
         final String path = '/storage/files/{fileId}/preview'.replaceAll(RegExp('{fileId}'), fileId);
 
         final Map<String, dynamic> params = {
