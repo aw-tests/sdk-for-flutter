@@ -122,10 +122,12 @@ class Account extends Service {
      /// Get currently logged in user list of latest security activity logs. Each
      /// log returns user IP address, location and date and time of log.
      ///
-     Future<models.LogList> getLogs() async {
+     Future<models.LogList> getLogs({int? limit, int? offset}) async {
         final String path = '/account/logs';
 
         final Map<String, dynamic> params = {
+            'limit': limit,
+            'offset': offset,
         };
 
         final Map<String, String> headers = {
