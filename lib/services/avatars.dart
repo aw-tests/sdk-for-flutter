@@ -1,6 +1,5 @@
 part of appwrite;
 
-
 class Avatars extends Service {
     Avatars(Client client): super(client);
 
@@ -11,7 +10,7 @@ class Avatars extends Service {
      /// /account/sessions endpoint. Use width, height and quality arguments to
      /// change the output settings.
      ///
-    Future<Response> getBrowser({required String code, int width = 100, int height = 100, int quality = 100}) {
+     Future<Uint8List>  getBrowser({required String code, int? width, int? height, int? quality}) async {
         final String path = '/avatars/browsers/{code}'.replaceAll(RegExp('{code}'), code);
 
         final Map<String, dynamic> params = {
@@ -19,14 +18,14 @@ class Avatars extends Service {
             'height': height,
             'quality': quality,
             'project': client.config['project'],
-            'jwt': client.config['jwt'],
         };
 
         params.keys.forEach((key) {if (params[key] is int || params[key] is double) {
           params[key] = params[key].toString();
         }});
 
-        return client.call(HttpMethod.get, path: path, params: params, responseType: ResponseType.bytes);
+        final res = await client.call(HttpMethod.get, path: path, params: params, responseType: ResponseType.bytes);
+        return res.data;
     }
 
      /// Get Credit Card Icon
@@ -35,7 +34,7 @@ class Avatars extends Service {
      /// provider you need. Use width, height and quality arguments to change the
      /// output settings.
      ///
-    Future<Response> getCreditCard({required String code, int width = 100, int height = 100, int quality = 100}) {
+     Future<Uint8List>  getCreditCard({required String code, int? width, int? height, int? quality}) async {
         final String path = '/avatars/credit-cards/{code}'.replaceAll(RegExp('{code}'), code);
 
         final Map<String, dynamic> params = {
@@ -43,14 +42,14 @@ class Avatars extends Service {
             'height': height,
             'quality': quality,
             'project': client.config['project'],
-            'jwt': client.config['jwt'],
         };
 
         params.keys.forEach((key) {if (params[key] is int || params[key] is double) {
           params[key] = params[key].toString();
         }});
 
-        return client.call(HttpMethod.get, path: path, params: params, responseType: ResponseType.bytes);
+        final res = await client.call(HttpMethod.get, path: path, params: params, responseType: ResponseType.bytes);
+        return res.data;
     }
 
      /// Get Favicon
@@ -59,20 +58,20 @@ class Avatars extends Service {
      /// website URL.
      /// 
      ///
-    Future<Response> getFavicon({required String url}) {
+     Future<Uint8List>  getFavicon({required String url}) async {
         final String path = '/avatars/favicon';
 
         final Map<String, dynamic> params = {
             'url': url,
             'project': client.config['project'],
-            'jwt': client.config['jwt'],
         };
 
         params.keys.forEach((key) {if (params[key] is int || params[key] is double) {
           params[key] = params[key].toString();
         }});
 
-        return client.call(HttpMethod.get, path: path, params: params, responseType: ResponseType.bytes);
+        final res = await client.call(HttpMethod.get, path: path, params: params, responseType: ResponseType.bytes);
+        return res.data;
     }
 
      /// Get Country Flag
@@ -81,7 +80,7 @@ class Avatars extends Service {
      /// users. The code argument receives the 2 letter country code. Use width,
      /// height and quality arguments to change the output settings.
      ///
-    Future<Response> getFlag({required String code, int width = 100, int height = 100, int quality = 100}) {
+     Future<Uint8List>  getFlag({required String code, int? width, int? height, int? quality}) async {
         final String path = '/avatars/flags/{code}'.replaceAll(RegExp('{code}'), code);
 
         final Map<String, dynamic> params = {
@@ -89,14 +88,14 @@ class Avatars extends Service {
             'height': height,
             'quality': quality,
             'project': client.config['project'],
-            'jwt': client.config['jwt'],
         };
 
         params.keys.forEach((key) {if (params[key] is int || params[key] is double) {
           params[key] = params[key].toString();
         }});
 
-        return client.call(HttpMethod.get, path: path, params: params, responseType: ResponseType.bytes);
+        final res = await client.call(HttpMethod.get, path: path, params: params, responseType: ResponseType.bytes);
+        return res.data;
     }
 
      /// Get Image from URL
@@ -106,7 +105,7 @@ class Avatars extends Service {
      /// remote images in your app or in case you want to make sure a 3rd party
      /// image is properly served using a TLS protocol.
      ///
-    Future<Response> getImage({required String url, int width = 400, int height = 400}) {
+     Future<Uint8List>  getImage({required String url, int? width, int? height}) async {
         final String path = '/avatars/image';
 
         final Map<String, dynamic> params = {
@@ -114,14 +113,14 @@ class Avatars extends Service {
             'width': width,
             'height': height,
             'project': client.config['project'],
-            'jwt': client.config['jwt'],
         };
 
         params.keys.forEach((key) {if (params[key] is int || params[key] is double) {
           params[key] = params[key].toString();
         }});
 
-        return client.call(HttpMethod.get, path: path, params: params, responseType: ResponseType.bytes);
+        final res = await client.call(HttpMethod.get, path: path, params: params, responseType: ResponseType.bytes);
+        return res.data;
     }
 
      /// Get User Initials
@@ -137,7 +136,7 @@ class Avatars extends Service {
      /// the user's initials when reloading the same theme will always return for
      /// the same initials.
      ///
-    Future<Response> getInitials({String name = '', int width = 500, int height = 500, String color = '', String background = ''}) {
+     Future<Uint8List>  getInitials({String? name, int? width, int? height, String? color, String? background}) async {
         final String path = '/avatars/initials';
 
         final Map<String, dynamic> params = {
@@ -147,14 +146,14 @@ class Avatars extends Service {
             'color': color,
             'background': background,
             'project': client.config['project'],
-            'jwt': client.config['jwt'],
         };
 
         params.keys.forEach((key) {if (params[key] is int || params[key] is double) {
           params[key] = params[key].toString();
         }});
 
-        return client.call(HttpMethod.get, path: path, params: params, responseType: ResponseType.bytes);
+        final res = await client.call(HttpMethod.get, path: path, params: params, responseType: ResponseType.bytes);
+        return res.data;
     }
 
      /// Get QR Code
@@ -162,7 +161,7 @@ class Avatars extends Service {
      /// Converts a given plain text to a QR code image. You can use the query
      /// parameters to change the size and style of the resulting image.
      ///
-    Future<Response> getQR({required String text, int size = 400, int margin = 1, bool download = false}) {
+     Future<Uint8List>  getQR({required String text, int? size, int? margin, bool? download}) async {
         final String path = '/avatars/qr';
 
         final Map<String, dynamic> params = {
@@ -171,13 +170,13 @@ class Avatars extends Service {
             'margin': margin,
             'download': download,
             'project': client.config['project'],
-            'jwt': client.config['jwt'],
         };
 
         params.keys.forEach((key) {if (params[key] is int || params[key] is double) {
           params[key] = params[key].toString();
         }});
 
-        return client.call(HttpMethod.get, path: path, params: params, responseType: ResponseType.bytes);
+        final res = await client.call(HttpMethod.get, path: path, params: params, responseType: ResponseType.bytes);
+        return res.data;
     }
 }
