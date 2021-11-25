@@ -29,13 +29,13 @@ class Locale implements Model {
 
     factory Locale.fromMap(Map<String, dynamic> map) {
         return Locale(
-            ip: map['ip']?.toString(),
-            countryCode: map['countryCode']?.toString(),
-            country: map['country']?.toString(),
-            continentCode: map['continentCode']?.toString(),
-            continent: map['continent']?.toString(),
+            ip: map['ip'].toString(),
+            countryCode: map['countryCode'].toString(),
+            country: map['country'].toString(),
+            continentCode: map['continentCode'].toString(),
+            continent: map['continent'].toString(),
             eu: map['eu'],
-            currency: map['currency']?.toString(),
+            currency: map['currency'].toString(),
         );
     }
 
