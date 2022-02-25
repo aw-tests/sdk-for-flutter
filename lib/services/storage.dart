@@ -70,7 +70,6 @@ class Storage extends Service {
           res = await client.call(HttpMethod.post, path: path, params: params, headers: headers);
         } else {
           String idParamName = '';
-          idParamName = 'bucketId';
           idParamName = 'fileId';
           final paramName = 'file';
           res = await chunkedUpload(
