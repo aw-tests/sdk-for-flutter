@@ -12,8 +12,12 @@ class Session implements Model {
     final String provider;
     /// Session Provider User ID.
     final String providerUid;
-    /// Session Provider Token.
-    final String providerToken;
+    /// Session Provider Access Token.
+    final String providerAccessToken;
+    /// Date, the Unix timestamp of when the access token expires.
+    final int providerAccessTokenExpiry;
+    /// Session Provider Refresh Token.
+    final String providerRefreshToken;
     /// IP in use when the session was created.
     final String ip;
     /// Operating system code name. View list of [available options](https://github.com/appwrite/appwrite/blob/master/docs/lists/os.json).
@@ -53,7 +57,9 @@ class Session implements Model {
         required this.expire,
         required this.provider,
         required this.providerUid,
-        required this.providerToken,
+        required this.providerAccessToken,
+        required this.providerAccessTokenExpiry,
+        required this.providerRefreshToken,
         required this.ip,
         required this.osCode,
         required this.osName,
@@ -74,27 +80,29 @@ class Session implements Model {
 
     factory Session.fromMap(Map<String, dynamic> map) {
         return Session(
-            $id: map['\$id'],
-            userId: map['userId'],
+            $id: map['\$id'].toString(),
+            userId: map['userId'].toString(),
             expire: map['expire'],
-            provider: map['provider'],
-            providerUid: map['providerUid'],
-            providerToken: map['providerToken'],
-            ip: map['ip'],
-            osCode: map['osCode'],
-            osName: map['osName'],
-            osVersion: map['osVersion'],
-            clientType: map['clientType'],
-            clientCode: map['clientCode'],
-            clientName: map['clientName'],
-            clientVersion: map['clientVersion'],
-            clientEngine: map['clientEngine'],
-            clientEngineVersion: map['clientEngineVersion'],
-            deviceName: map['deviceName'],
-            deviceBrand: map['deviceBrand'],
-            deviceModel: map['deviceModel'],
-            countryCode: map['countryCode'],
-            countryName: map['countryName'],
+            provider: map['provider'].toString(),
+            providerUid: map['providerUid'].toString(),
+            providerAccessToken: map['providerAccessToken'].toString(),
+            providerAccessTokenExpiry: map['providerAccessTokenExpiry'],
+            providerRefreshToken: map['providerRefreshToken'].toString(),
+            ip: map['ip'].toString(),
+            osCode: map['osCode'].toString(),
+            osName: map['osName'].toString(),
+            osVersion: map['osVersion'].toString(),
+            clientType: map['clientType'].toString(),
+            clientCode: map['clientCode'].toString(),
+            clientName: map['clientName'].toString(),
+            clientVersion: map['clientVersion'].toString(),
+            clientEngine: map['clientEngine'].toString(),
+            clientEngineVersion: map['clientEngineVersion'].toString(),
+            deviceName: map['deviceName'].toString(),
+            deviceBrand: map['deviceBrand'].toString(),
+            deviceModel: map['deviceModel'].toString(),
+            countryCode: map['countryCode'].toString(),
+            countryName: map['countryName'].toString(),
             current: map['current'],
         );
     }
@@ -107,7 +115,9 @@ class Session implements Model {
             "expire": expire,
             "provider": provider,
             "providerUid": providerUid,
-            "providerToken": providerToken,
+            "providerAccessToken": providerAccessToken,
+            "providerAccessTokenExpiry": providerAccessTokenExpiry,
+            "providerRefreshToken": providerRefreshToken,
             "ip": ip,
             "osCode": osCode,
             "osName": osName,

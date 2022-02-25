@@ -8,7 +8,7 @@ class Account extends Service {
      /// Get currently logged in user data as JSON object.
      ///
      Future<models.User> get() async {
-        final String path = '/account';
+        const String path = '/account';
 
         final Map<String, dynamic> params = {
         };
@@ -30,10 +30,11 @@ class Account extends Service {
      /// login to their new account, you need to create a new [account
      /// session](/docs/client/account#accountCreateSession).
      ///
-     Future<models.User> create({required String email, required String password, String? name}) async {
-        final String path = '/account';
+     Future<models.User> create({required String userId, required String email, required String password, String? name}) async {
+        const String path = '/account';
 
         final Map<String, dynamic> params = {
+            'userId': userId,
             'email': email,
             'password': password,
             'name': name,
@@ -56,7 +57,7 @@ class Account extends Service {
      /// be deleted separately.
      ///
      Future delete() async {
-        final String path = '/account';
+        const String path = '/account';
 
         final Map<String, dynamic> params = {
         };
@@ -72,14 +73,16 @@ class Account extends Service {
      /// Update Account Email
      ///
      /// Update currently logged in user account email address. After changing user
-     /// address, user confirmation status is being reset and a new confirmation
-     /// mail is sent. For security measures, user password is required to complete
-     /// this request.
+     /// address, the user confirmation status will get reset. A new confirmation
+     /// email is not sent automatically however you can use the send confirmation
+     /// email endpoint again to send the confirmation email. For security measures,
+     /// user password is required to complete this request.
      /// This endpoint can also be used to convert an anonymous account to a normal
      /// one, by passing an email address and a new password.
+     /// 
      ///
      Future<models.User> updateEmail({required String email, required String password}) async {
-        final String path = '/account/email';
+        const String path = '/account/email';
 
         final Map<String, dynamic> params = {
             'email': email,
@@ -103,7 +106,7 @@ class Account extends Service {
      /// frame.
      ///
      Future<models.Jwt> createJWT() async {
-        final String path = '/account/jwt';
+        const String path = '/account/jwt';
 
         final Map<String, dynamic> params = {
         };
@@ -121,10 +124,12 @@ class Account extends Service {
      /// Get currently logged in user list of latest security activity logs. Each
      /// log returns user IP address, location and date and time of log.
      ///
-     Future<models.LogList> getLogs() async {
-        final String path = '/account/logs';
+     Future<models.LogList> getLogs({int? limit, int? offset}) async {
+        const String path = '/account/logs';
 
         final Map<String, dynamic> params = {
+            'limit': limit,
+            'offset': offset,
         };
 
         final Map<String, String> headers = {
@@ -140,7 +145,7 @@ class Account extends Service {
      /// Update currently logged in user account name.
      ///
      Future<models.User> updateName({required String name}) async {
-        final String path = '/account/name';
+        const String path = '/account/name';
 
         final Map<String, dynamic> params = {
             'name': name,
@@ -161,7 +166,7 @@ class Account extends Service {
      /// OAuth and Team Invites, oldPassword is optional.
      ///
      Future<models.User> updatePassword({required String password, String? oldPassword}) async {
-        final String path = '/account/password';
+        const String path = '/account/password';
 
         final Map<String, dynamic> params = {
             'password': password,
@@ -181,7 +186,7 @@ class Account extends Service {
      /// Get currently logged in user preferences as a key-value object.
      ///
      Future<models.Preferences> getPrefs() async {
-        final String path = '/account/prefs';
+        const String path = '/account/prefs';
 
         final Map<String, dynamic> params = {
         };
@@ -196,11 +201,12 @@ class Account extends Service {
 
      /// Update Account Preferences
      ///
-     /// Update currently logged in user account preferences. You can pass only the
-     /// specific settings you wish to update.
+     /// Update currently logged in user account preferences. The object you pass is
+     /// stored as is, and replaces any previous value. The maximum allowed prefs
+     /// size is 64kB and throws error if exceeded.
      ///
      Future<models.User> updatePrefs({required Map prefs}) async {
-        final String path = '/account/prefs';
+        const String path = '/account/prefs';
 
         final Map<String, dynamic> params = {
             'prefs': prefs,
@@ -226,7 +232,7 @@ class Account extends Service {
      /// address is valid for 1 hour.
      ///
      Future<models.Token> createRecovery({required String email, required String url}) async {
-        final String path = '/account/recovery';
+        const String path = '/account/recovery';
 
         final Map<String, dynamic> params = {
             'email': email,
@@ -254,7 +260,7 @@ class Account extends Service {
      /// adding your platforms in the console interface.
      ///
      Future<models.Token> updateRecovery({required String userId, required String secret, required String password, required String passwordAgain}) async {
-        final String path = '/account/recovery';
+        const String path = '/account/recovery';
 
         final Map<String, dynamic> params = {
             'userId': userId,
@@ -277,7 +283,7 @@ class Account extends Service {
      /// devices.
      ///
      Future<models.SessionList> getSessions() async {
-        final String path = '/account/sessions';
+        const String path = '/account/sessions';
 
         final Map<String, dynamic> params = {
         };
@@ -296,7 +302,7 @@ class Account extends Service {
      /// password combination. This route will create a new session for the user.
      ///
      Future<models.Session> createSession({required String email, required String password}) async {
-        final String path = '/account/sessions';
+        const String path = '/account/sessions';
 
         final Map<String, dynamic> params = {
             'email': email,
@@ -317,7 +323,7 @@ class Account extends Service {
      /// from the end client.
      ///
      Future deleteSessions() async {
-        final String path = '/account/sessions';
+        const String path = '/account/sessions';
 
         final Map<String, dynamic> params = {
         };
@@ -340,7 +346,7 @@ class Account extends Service {
      /// session](/docs/client/account#accountCreateOAuth2Session).
      ///
      Future<models.Session> createAnonymousSession() async {
-        final String path = '/account/sessions/anonymous';
+        const String path = '/account/sessions/anonymous';
 
         final Map<String, dynamic> params = {
         };
@@ -366,10 +372,11 @@ class Account extends Service {
      /// the URL parameter empty, so that the login completion will be handled by
      /// your Appwrite instance by default.
      ///
-     Future<models.Token> createMagicURLSession({required String email, String? url}) async {
-        final String path = '/account/sessions/magic-url';
+     Future<models.Token> createMagicURLSession({required String userId, required String email, String? url}) async {
+        const String path = '/account/sessions/magic-url';
 
         final Map<String, dynamic> params = {
+            'userId': userId,
             'email': email,
             'url': url,
         };
@@ -397,7 +404,7 @@ class Account extends Service {
      /// adding your platforms in the console interface.
      ///
      Future<models.Session> updateMagicURLSession({required String userId, required String secret}) async {
-        final String path = '/account/sessions/magic-url';
+        const String path = '/account/sessions/magic-url';
 
         final Map<String, dynamic> params = {
             'userId': userId,
@@ -428,7 +435,7 @@ class Account extends Service {
      /// 
      ///
     Future createOAuth2Session({required String provider, String? success, String? failure, List? scopes}) async {
-        final String path = '/account/sessions/oauth2/{provider}'.replaceAll(RegExp('{provider}'), provider);
+        final String path = '/account/sessions/oauth2/{provider}'.replaceAll('{provider}', provider);
 
         final Map<String, dynamic> params = {
             'success': success,
@@ -468,7 +475,7 @@ class Account extends Service {
      /// Inputting 'current' will return the current session being used.
      ///
      Future<models.Session> getSession({required String sessionId}) async {
-        final String path = '/account/sessions/{sessionId}'.replaceAll(RegExp('{sessionId}'), sessionId);
+        final String path = '/account/sessions/{sessionId}'.replaceAll('{sessionId}', sessionId);
 
         final Map<String, dynamic> params = {
         };
@@ -481,14 +488,30 @@ class Account extends Service {
         return models.Session.fromMap(res.data);
     }
 
+     /// Update Session (Refresh Tokens)
+     Future<models.Session> updateSession({required String sessionId}) async {
+        final String path = '/account/sessions/{sessionId}'.replaceAll('{sessionId}', sessionId);
+
+        final Map<String, dynamic> params = {
+        };
+
+        final Map<String, String> headers = {
+            'content-type': 'application/json',
+        };
+
+        final res = await client.call(HttpMethod.patch, path: path, params: params, headers: headers);
+        return models.Session.fromMap(res.data);
+    }
+
      /// Delete Account Session
      ///
      /// Use this endpoint to log out the currently logged in user from all their
      /// account sessions across all of their different devices. When using the
-     /// option id argument, only the session unique ID provider will be deleted.
+     /// Session ID argument, only the unique session ID provided is deleted.
+     /// 
      ///
      Future deleteSession({required String sessionId}) async {
-        final String path = '/account/sessions/{sessionId}'.replaceAll(RegExp('{sessionId}'), sessionId);
+        final String path = '/account/sessions/{sessionId}'.replaceAll('{sessionId}', sessionId);
 
         final Map<String, dynamic> params = {
         };
@@ -520,7 +543,7 @@ class Account extends Service {
      /// 
      ///
      Future<models.Token> createVerification({required String url}) async {
-        final String path = '/account/verification';
+        const String path = '/account/verification';
 
         final Map<String, dynamic> params = {
             'url': url,
@@ -542,7 +565,7 @@ class Account extends Service {
      /// 200 status code.
      ///
      Future<models.Token> updateVerification({required String userId, required String secret}) async {
-        final String path = '/account/verification';
+        const String path = '/account/verification';
 
         final Map<String, dynamic> params = {
             'userId': userId,
