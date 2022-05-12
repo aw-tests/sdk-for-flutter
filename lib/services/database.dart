@@ -1,5 +1,8 @@
 part of appwrite;
 
+
+     /// The Database service allows you to create structured collections of
+     /// documents, query and filter lists of documents
 class Database extends Service {
     Database(Client client): super(client);
 
@@ -99,9 +102,7 @@ class Database extends Service {
 
      /// Delete Document
      ///
-     /// Delete a document by its unique ID. This endpoint deletes only the parent
-     /// documents, its attributes and relations to other documents. Child documents
-     /// **will not** be deleted.
+     /// Delete a document by its unique ID.
      ///
      Future deleteDocument({required String collectionId, required String documentId}) async {
         final String path = '/database/collections/{collectionId}/documents/{documentId}'.replaceAll('{collectionId}', collectionId).replaceAll('{documentId}', documentId);

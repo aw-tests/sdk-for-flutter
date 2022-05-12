@@ -1,5 +1,7 @@
 part of appwrite;
 
+
+     /// The Account service allows you to authenticate and manage a user account.
 class Account extends Service {
     Account(Client client): super(client);
 
@@ -163,7 +165,7 @@ class Account extends Service {
      ///
      /// Update currently logged in user password. For validation, user is required
      /// to pass in the new password, and the old password. For users created with
-     /// OAuth and Team Invites, oldPassword is optional.
+     /// OAuth, Team Invites and Magic URL, oldPassword is optional.
      ///
      Future<models.User> updatePassword({required String password, String? oldPassword}) async {
         const String path = '/account/password';
@@ -489,6 +491,11 @@ class Account extends Service {
     }
 
      /// Update Session (Refresh Tokens)
+     ///
+     /// Access tokens have limited lifespan and expire to mitigate security risks.
+     /// If session was created using an OAuth provider, this route can be used to
+     /// "refresh" the access token.
+     ///
      Future<models.Session> updateSession({required String sessionId}) async {
         final String path = '/account/sessions/{sessionId}'.replaceAll('{sessionId}', sessionId);
 
