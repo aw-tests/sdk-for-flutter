@@ -161,6 +161,29 @@ class Account extends Service {
         return models.User.fromMap(res.data);
     }
 
+     /// Update Account Phone
+     ///
+     /// Update currently logged in user account phone number. After changing phone
+     /// number, the user confirmation status will get reset. A new confirmation SMS
+     /// is not sent automatically however you can use the phone confirmation
+     /// endpoint again to send the confirmation SMS.
+     ///
+     Future<models.User> updatePhone({required String number, required String password}) async {
+        const String path = '/account/phone';
+
+        final Map<String, dynamic> params = {
+            'number': number,
+            'password': password,
+        };
+
+        final Map<String, String> headers = {
+            'content-type': 'application/json',
+        };
+
+        final res = await client.call(HttpMethod.patch, path: path, params: params, headers: headers);
+        return models.User.fromMap(res.data);
+    }
+
      /// Get Account Preferences
      ///
      /// Get currently logged in user preferences as a key-value object.
@@ -276,27 +299,6 @@ class Account extends Service {
         return models.SessionList.fromMap(res.data);
     }
 
-     /// Create Account Session
-     ///
-     /// Allow the user to login into their account by providing a valid email and
-     /// password combination. This route will create a new session for the user.
-     ///
-     Future<models.Session> createSession({required String email, required String password}) async {
-        const String path = '/account/sessions';
-
-        final Map<String, dynamic> params = {
-            'email': email,
-            'password': password,
-        };
-
-        final Map<String, String> headers = {
-            'content-type': 'application/json',
-        };
-
-        final res = await client.call(HttpMethod.post, path: path, params: params, headers: headers);
-        return models.Session.fromMap(res.data);
-    }
-
      /// Delete All Account Sessions
      ///
      /// Delete all sessions from the user account and remove any sessions cookies
@@ -329,6 +331,27 @@ class Account extends Service {
         const String path = '/account/sessions/anonymous';
 
         final Map<String, dynamic> params = {
+        };
+
+        final Map<String, String> headers = {
+            'content-type': 'application/json',
+        };
+
+        final res = await client.call(HttpMethod.post, path: path, params: params, headers: headers);
+        return models.Session.fromMap(res.data);
+    }
+
+     /// Create Account Session with Email
+     ///
+     /// Allow the user to login into their account by providing a valid email and
+     /// password combination. This route will create a new session for the user.
+     ///
+     Future<models.Session> createEmailSession({required String email, required String password}) async {
+        const String path = '/account/sessions/email';
+
+        final Map<String, dynamic> params = {
+            'email': email,
+            'password': password,
         };
 
         final Map<String, String> headers = {
@@ -449,6 +472,60 @@ class Account extends Service {
 
     }
 
+     /// Create Phone session
+     ///
+     /// Sends the user a SMS with a secret key for creating a session. Use the
+     /// returned user ID and the secret to submit a request to the [PUT
+     /// /account/sessions/phone](/docs/client/account#accountUpdatePhoneSession)
+     /// endpoint to complete the login process. The secret sent to the user's phone
+     /// is valid for 15 minutes.
+     ///
+     Future<models.Token> createPhoneSession({required String userId, required String number}) async {
+        const String path = '/account/sessions/phone';
+
+        final Map<String, dynamic> params = {
+            'userId': userId,
+            'number': number,
+        };
+
+        final Map<String, String> headers = {
+            'content-type': 'application/json',
+        };
+
+        final res = await client.call(HttpMethod.post, path: path, params: params, headers: headers);
+        return models.Token.fromMap(res.data);
+    }
+
+     /// Create Phone session (confirmation)
+     ///
+     /// Use this endpoint to complete creating the session with the Magic URL. Both
+     /// the **userId** and **secret** arguments will be passed as query parameters
+     /// to the redirect URL you have provided when sending your request to the
+     /// [POST
+     /// /account/sessions/magic-url](/docs/client/account#accountCreateMagicURLSession)
+     /// endpoint.
+     /// 
+     /// Please note that in order to avoid a [Redirect
+     /// Attack](https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.md)
+     /// the only valid redirect URLs are the ones from domains you have set when
+     /// adding your platforms in the console interface.
+     ///
+     Future<models.Session> updatePhoneSession({required String userId, required String secret}) async {
+        const String path = '/account/sessions/phone';
+
+        final Map<String, dynamic> params = {
+            'userId': userId,
+            'secret': secret,
+        };
+
+        final Map<String, String> headers = {
+            'content-type': 'application/json',
+        };
+
+        final res = await client.call(HttpMethod.put, path: path, params: params, headers: headers);
+        return models.Session.fromMap(res.data);
+    }
+
      /// Get Session By ID
      ///
      /// Use this endpoint to get a logged in user's session using a Session ID.
@@ -538,8 +615,8 @@ class Account extends Service {
      /// should redirect the user back to your app and allow you to complete the
      /// verification process by verifying both the **userId** and **secret**
      /// parameters. Learn more about how to [complete the verification
-     /// process](/docs/client/account#accountUpdateVerification). The verification
-     /// link sent to the user's email address is valid for 7 days.
+     /// process](/docs/client/account#accountUpdateEmailVerification). The
+     /// verification link sent to the user's email address is valid for 7 days.
      /// 
      /// Please note that in order to avoid a [Redirect
      /// Attack](https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.md),
@@ -571,6 +648,53 @@ class Account extends Service {
      ///
      Future<models.Token> updateVerification({required String userId, required String secret}) async {
         const String path = '/account/verification';
+
+        final Map<String, dynamic> params = {
+            'userId': userId,
+            'secret': secret,
+        };
+
+        final Map<String, String> headers = {
+            'content-type': 'application/json',
+        };
+
+        final res = await client.call(HttpMethod.put, path: path, params: params, headers: headers);
+        return models.Token.fromMap(res.data);
+    }
+
+     /// Create Phone Verification
+     ///
+     /// Use this endpoint to send a verification message to your user's phone
+     /// number to confirm they are the valid owners of that address. The provided
+     /// secret should allow you to complete the verification process by verifying
+     /// both the **userId** and **secret** parameters. Learn more about how to
+     /// [complete the verification
+     /// process](/docs/client/account#accountUpdatePhoneVerification). The
+     /// verification link sent to the user's phone number is valid for 15 minutes.
+     ///
+     Future<models.Token> createPhoneVerification() async {
+        const String path = '/account/verification/phone';
+
+        final Map<String, dynamic> params = {
+        };
+
+        final Map<String, String> headers = {
+            'content-type': 'application/json',
+        };
+
+        final res = await client.call(HttpMethod.post, path: path, params: params, headers: headers);
+        return models.Token.fromMap(res.data);
+    }
+
+     /// Create Phone Verification (confirmation)
+     ///
+     /// Use this endpoint to complete the user phone verification process. Use the
+     /// **userId** and **secret** that were sent to your user's phone number to
+     /// verify the user email ownership. If confirmed this route will return a 200
+     /// status code.
+     ///
+     Future<models.Token> updatePhoneVerification({required String userId, required String secret}) async {
+        const String path = '/account/verification/phone';
 
         final Map<String, dynamic> params = {
             'userId': userId,
