@@ -25,7 +25,7 @@ export 'package:http/http.dart' show MultipartFile;
 part 'query.dart';
 part 'services/account.dart';
 part 'services/avatars.dart';
-part 'services/database.dart';
+part 'services/databases.dart';
 part 'services/functions.dart';
 part 'services/locale.dart';
 part 'services/storage.dart';
