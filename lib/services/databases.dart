@@ -1,6 +1,5 @@
 part of appwrite;
 
-
      /// The Databases service allows you to create structured collections of
      /// documents, query and filter lists of documents
 class Databases extends Service {
@@ -12,20 +11,26 @@ class Databases extends Service {
 
         final Map<String, dynamic> params = {
             'queries': queries,
-            'limit': limit,
-            'offset': offset,
-            'cursor': cursor,
-            'cursorDirection': cursorDirection,
-            'orderAttributes': orderAttributes,
-            'orderTypes': orderTypes,
+'limit': limit,
+'offset': offset,
+'cursor': cursor,
+'cursorDirection': cursorDirection,
+'orderAttributes': orderAttributes,
+'orderTypes': orderTypes,
+
+            
         };
 
         final Map<String, String> headers = {
-            'content-type': 'application/json',
+                        'content-type': 'application/json',
+
         };
 
         final res = await client.call(HttpMethod.get, path: path, params: params, headers: headers);
+
         return models.DocumentList.fromMap(res.data);
+
+
     }
 
      /// Create Document
@@ -33,18 +38,24 @@ class Databases extends Service {
         final String path = '/databases/{databaseId}/collections/{collectionId}/documents'.replaceAll('{databaseId}', databaseId).replaceAll('{collectionId}', collectionId);
 
         final Map<String, dynamic> params = {
+            
             'documentId': documentId,
-            'data': data,
-            'read': read,
-            'write': write,
+'data': data,
+'read': read,
+'write': write,
+
         };
 
         final Map<String, String> headers = {
-            'content-type': 'application/json',
+                        'content-type': 'application/json',
+
         };
 
         final res = await client.call(HttpMethod.post, path: path, params: params, headers: headers);
+
         return models.Document.fromMap(res.data);
+
+
     }
 
      /// Get Document
@@ -52,14 +63,20 @@ class Databases extends Service {
         final String path = '/databases/{databaseId}/collections/{collectionId}/documents/{documentId}'.replaceAll('{databaseId}', databaseId).replaceAll('{collectionId}', collectionId).replaceAll('{documentId}', documentId);
 
         final Map<String, dynamic> params = {
+            
+            
         };
 
         final Map<String, String> headers = {
-            'content-type': 'application/json',
+                        'content-type': 'application/json',
+
         };
 
         final res = await client.call(HttpMethod.get, path: path, params: params, headers: headers);
+
         return models.Document.fromMap(res.data);
+
+
     }
 
      /// Update Document
@@ -67,17 +84,23 @@ class Databases extends Service {
         final String path = '/databases/{databaseId}/collections/{collectionId}/documents/{documentId}'.replaceAll('{databaseId}', databaseId).replaceAll('{collectionId}', collectionId).replaceAll('{documentId}', documentId);
 
         final Map<String, dynamic> params = {
+            
             'data': data,
-            'read': read,
-            'write': write,
+'read': read,
+'write': write,
+
         };
 
         final Map<String, String> headers = {
-            'content-type': 'application/json',
+                        'content-type': 'application/json',
+
         };
 
         final res = await client.call(HttpMethod.patch, path: path, params: params, headers: headers);
+
         return models.Document.fromMap(res.data);
+
+
     }
 
      /// Delete Document
@@ -85,13 +108,19 @@ class Databases extends Service {
         final String path = '/databases/{databaseId}/collections/{collectionId}/documents/{documentId}'.replaceAll('{databaseId}', databaseId).replaceAll('{collectionId}', collectionId).replaceAll('{documentId}', documentId);
 
         final Map<String, dynamic> params = {
+            
+            
         };
 
         final Map<String, String> headers = {
-            'content-type': 'application/json',
+                        'content-type': 'application/json',
+
         };
 
         final res = await client.call(HttpMethod.delete, path: path, params: params, headers: headers);
+
         return  res.data;
+
+
     }
 }
