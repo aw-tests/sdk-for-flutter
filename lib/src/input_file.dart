@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'exception.dart';
 
 class InputFile {
   late final String? path;
@@ -10,9 +11,9 @@ class InputFile {
   /// and provide `bytes` for web platform
   InputFile({this.path, this.filename, this.contentType, this.bytes}) {
     if (kIsWeb && bytes == null) {
-      throw {{ spec.title | caseUcfirs }}Exception('On web `bytes` is required');
-    } else if(path == null) {
-      throw {{ spec.title | caseUcfirs }}Exception('On IO platforms `path is required`);
+      throw AppwriteException('On web `bytes` is required');
+    } else if(!kIsWeb && path == null && bytes == null) {
+      throw AppwriteException('On IO platforms one of `path` or `bytes`  is required');
     }
   }
 }
