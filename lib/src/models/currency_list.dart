@@ -19,11 +19,10 @@ class CurrencyList implements Model {
         );
     }
 
-    @override
     Map<String, dynamic> toMap() {
         return {
             "total": total,
-            "currencies": currencies.map((p) => p.toMap()),
+            "currencies": currencies.map((p) => p.toMap()).toList(),
         };
     }
 }

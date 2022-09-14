@@ -19,11 +19,10 @@ class FileList implements Model {
         );
     }
 
-    @override
     Map<String, dynamic> toMap() {
         return {
             "total": total,
-            "files": files.map((p) => p.toMap()),
+            "files": files.map((p) => p.toMap()).toList(),
         };
     }
 }

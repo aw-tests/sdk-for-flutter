@@ -1,7 +1,7 @@
 import 'dart:html' as html;
 import 'dart:math';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_web_auth/flutter_web_auth.dart';
+import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/browser_client.dart';
 import 'client_mixin.dart';
@@ -40,8 +40,11 @@ class ClientBrowser extends ClientBase with ClientMixin {
         .replaceFirst('http://', 'ws://');
     _headers = {
       'content-type': 'application/json',
-      'x-sdk-version': 'appwrite:flutter:6.0.0',
-      'X-Appwrite-Response-Format' : '0.15.0',
+      'x-sdk-name': 'Flutter',
+      'x-sdk-platform': 'client',
+      'x-sdk-language': 'flutter',
+      'x-sdk-version': '8.0.0-dev.3',
+      'X-Appwrite-Response-Format' : '1.0.0',
     };
 
     config = {};
@@ -216,7 +219,7 @@ class ClientBrowser extends ClientBase with ClientMixin {
 
   @override
   Future webAuth(Uri url) {
-  return FlutterWebAuth.authenticate(
+  return FlutterWebAuth2.authenticate(
       url: url.toString(),
       callbackUrlScheme: "appwrite-callback-" + config['project']!,
     );

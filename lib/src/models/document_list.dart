@@ -19,11 +19,10 @@ class DocumentList implements Model {
         );
     }
 
-    @override
     Map<String, dynamic> toMap() {
         return {
             "total": total,
-            "documents": documents.map((p) => p.toMap()),
+            "documents": documents.map((p) => p.toMap()).toList(),
         };
     }
 

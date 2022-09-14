@@ -19,11 +19,10 @@ class ContinentList implements Model {
         );
     }
 
-    @override
     Map<String, dynamic> toMap() {
         return {
             "total": total,
-            "continents": continents.map((p) => p.toMap()),
+            "continents": continents.map((p) => p.toMap()).toList(),
         };
     }
 }

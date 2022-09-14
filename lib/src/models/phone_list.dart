@@ -19,11 +19,10 @@ class PhoneList implements Model {
         );
     }
 
-    @override
     Map<String, dynamic> toMap() {
         return {
             "total": total,
-            "phones": phones.map((p) => p.toMap()),
+            "phones": phones.map((p) => p.toMap()).toList(),
         };
     }
 }
