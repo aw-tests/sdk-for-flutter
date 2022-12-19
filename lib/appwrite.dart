@@ -26,6 +26,7 @@ part 'services/account.dart';
 part 'services/avatars.dart';
 part 'services/databases.dart';
 part 'services/functions.dart';
+part 'services/graphql.dart';
 part 'services/locale.dart';
 part 'services/storage.dart';
 part 'services/teams.dart';
