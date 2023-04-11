@@ -1,9 +1,9 @@
-import 'dart:html' as html;
 import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/browser_client.dart';
+import 'package:universal_html/html.dart' as html;
 import 'client_mixin.dart';
 import 'enums.dart';
 import 'exception.dart';
@@ -43,8 +43,8 @@ class ClientBrowser extends ClientBase with ClientMixin {
       'x-sdk-name': 'Flutter',
       'x-sdk-platform': 'client',
       'x-sdk-language': 'flutter',
-      'x-sdk-version': '8.1.0',
-      'X-Appwrite-Response-Format' : '1.0.0',
+      'x-sdk-version': '8.2.0',
+      'X-Appwrite-Response-Format': '1.0.0',
     };
 
     config = {};
@@ -57,26 +57,26 @@ class ClientBrowser extends ClientBase with ClientMixin {
   @override
   String get endPoint => _endPoint;
 
-     /// Your project ID
-    @override
-    ClientBrowser setProject(value) {
-        config['project'] = value;
-        addHeader('X-Appwrite-Project', value);
-        return this;
-    }
-     /// Your secret JSON Web Token
-    @override
-    ClientBrowser setJWT(value) {
-        config['jWT'] = value;
-        addHeader('X-Appwrite-JWT', value);
-        return this;
-    }
-    @override
-    ClientBrowser setLocale(value) {
-        config['locale'] = value;
-        addHeader('X-Appwrite-Locale', value);
-        return this;
-    }
+  /// Your project ID
+  @override
+  ClientBrowser setProject(value) {
+    config['project'] = value;
+    addHeader('X-Appwrite-Project', value);
+    return this;
+  }
+  /// Your secret JSON Web Token
+  @override
+  ClientBrowser setJWT(value) {
+    config['jWT'] = value;
+    addHeader('X-Appwrite-JWT', value);
+    return this;
+  }
+  @override
+  ClientBrowser setLocale(value) {
+    config['locale'] = value;
+    addHeader('X-Appwrite-Locale', value);
+    return this;
+  }
 
   @override
   ClientBrowser setSelfSigned({bool status = true}) {
@@ -156,7 +156,7 @@ class ClientBrowser extends ClientBase with ClientMixin {
 
     while (offset < size) {
       var chunk;
-      final end = min(offset + CHUNK_SIZE-1, size-1);
+      final end = min(offset + CHUNK_SIZE, size);
       chunk = file.bytes!.getRange(offset, end).toList();
       params[paramName] =
           http.MultipartFile.fromBytes(paramName, chunk, filename: file.filename);
@@ -218,7 +218,7 @@ class ClientBrowser extends ClientBase with ClientMixin {
   }
 
   @override
-  Future webAuth(Uri url) {
+  Future webAuth(Uri url, {String? callbackUrlScheme}) {
   return FlutterWebAuth2.authenticate(
       url: url.toString(),
       callbackUrlScheme: "appwrite-callback-" + config['project']!,

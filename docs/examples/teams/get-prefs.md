@@ -2,14 +2,14 @@ import 'package:appwrite/appwrite.dart';
 
 void main() { // Init SDK
   Client client = Client();
-  Graphql graphql = Graphql(client);
+  Teams teams = Teams(client);
 
   client
     .setEndpoint('https://[HOSTNAME_OR_IP]/v1') // Your API Endpoint
     .setProject('5df5acd0d48c2') // Your project ID
   ;
-  Future result = graphql.get(
-    query: '[QUERY]',
+  Future result = teams.getPrefs(
+    teamId: '[TEAM_ID]',
   );
 
   result

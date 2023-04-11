@@ -64,7 +64,7 @@ class ClientIO extends ClientBase with ClientMixin {
       'x-sdk-name': 'Flutter',
       'x-sdk-platform': 'client',
       'x-sdk-language': 'flutter',
-      'x-sdk-version': '8.1.0',
+      'x-sdk-version': '8.2.0',
       'X-Appwrite-Response-Format' : '1.0.0',
     };
 
@@ -140,18 +140,18 @@ class ClientIO extends ClientBase with ClientMixin {
   Future init() async {
     if(_initProgress) return;
     _initProgress = true;
-    // if web skip cookie implementation and origin header as those are automatically handled by browsers
     final Directory cookieDir = await _getCookiePath();
     _cookieJar = PersistCookieJar(storage: FileStorage(cookieDir.path));
     _interceptors.add(CookieManager(_cookieJar));
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    addHeader('Origin',
-        'appwrite-${Platform.operatingSystem}://${packageInfo.packageName}');
 
-    //creating custom user agent
-    DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
     var device = '';
     try {
+      PackageInfo packageInfo = await PackageInfo.fromPlatform();
+      addHeader('Origin',
+          'appwrite-${Platform.operatingSystem}://${packageInfo.packageName}');
+
+      //creating custom user agent
+      DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
       if (Platform.isAndroid) {
         final andinfo = await deviceInfoPlugin.androidInfo;
         device =
@@ -174,12 +174,14 @@ class ClientIO extends ClientBase with ClientMixin {
         final macinfo = await deviceInfoPlugin.macOsInfo;
         device = '(Macintosh; ${macinfo.model})';
       }
+      addHeader(
+          'user-agent', '${packageInfo.packageName}/${packageInfo.version} $device');
     } catch (e) {
       debugPrint('Error getting device info: $e');
       device = Platform.operatingSystem;
+      addHeader(
+          'user-agent', '$device');
     }
-    addHeader(
-        'user-agent', '${packageInfo.packageName}/${packageInfo.version} $device');
 
     _initialized = true;
     _initProgress = false;
@@ -279,7 +281,7 @@ class ClientIO extends ClientBase with ClientMixin {
     }
 
     while (offset < size) {
-      var chunk;
+      List<int> chunk = [];
       if (file.bytes != null) {
         final end = min(offset + CHUNK_SIZE-1, size-1);
         chunk = file.bytes!.getRange(offset, end).toList();
@@ -311,10 +313,11 @@ class ClientIO extends ClientBase with ClientMixin {
   }
 
   @override
-  Future webAuth(Uri url) {
+  Future webAuth(Uri url, {String? callbackUrlScheme}) {
     return FlutterWebAuth2.authenticate(
       url: url.toString(),
-      callbackUrlScheme: "appwrite-callback-" + config['project']!,
+      callbackUrlScheme: callbackUrlScheme != null && Platform.isWindows ? callbackUrlScheme : "appwrite-callback-" + config['project']!,
+      preferEphemeral: true,
     ).then((value) async {
       Uri url = Uri.parse(value);
       final key = url.queryParameters['key'];

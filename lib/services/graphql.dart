@@ -7,29 +7,6 @@ class Graphql extends Service {
 
     /// GraphQL Endpoint
     ///
-    /// Execute a GraphQL query.
-    ///
-    Future 63a0228e7e93a({required String query, String? operationName, String? variables}) async {
-        const String path = '/graphql';
-
-        final Map<String, dynamic> params = {
-            'query': query,
-            'operationName': operationName,
-            'variables': variables,
-        };
-
-        final Map<String, String> headers = {
-            'content-type': 'application/json',
-        };
-
-        final res = await client.call(HttpMethod.get, path: path, params: params, headers: headers);
-
-        return  res.data;
-
-    }
-
-    /// GraphQL Endpoint
-    ///
     /// Execute a GraphQL mutation.
     ///
     Future query({required Map query}) async {

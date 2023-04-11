@@ -1,6 +1,8 @@
 part of appwrite;
 
 class Query {
+    Query._();
+    
   static equal(String attribute, dynamic value) =>
       _addQuery(attribute, 'equal', value);
 
@@ -21,6 +23,21 @@ class Query {
 
   static search(String attribute, String value) =>
       _addQuery(attribute, 'search', value);
+
+  static isNull(String attribute) => 'isNull("$attribute")';
+
+  static isNotNull(String attribute) => 'isNotNull("$attribute")';
+
+  static between(String attribute, dynamic start, dynamic end) =>
+      _addQuery(attribute, 'between', [start, end]);
+
+  static startsWith(String attribute, String value) =>
+      _addQuery(attribute, 'startsWith', value);
+
+  static endsWith(String attribute, String value) =>
+      _addQuery(attribute, 'endsWith', value);
+
+  static select(List<String> attributes) => 'select([${attributes.map((attr) => "\"$attr\"").join(",")}])';
 
   static String orderAsc(String attribute) => 'orderAsc("$attribute")';
 
